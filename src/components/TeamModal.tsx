@@ -47,6 +47,7 @@ export default function TeamModal() {
     const [selectedPlayers, setSelectedPlayers] = useState<NBAPlayer[]>([]);
 
     const isDuplicateTeamName = useMemo(() => {
+        if(targetTeam) return false;
         const name = teamForm.name.trim().toLowerCase();
         return teams.some(
             (team) =>

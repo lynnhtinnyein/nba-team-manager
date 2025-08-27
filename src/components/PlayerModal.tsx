@@ -78,6 +78,7 @@ export default function PlayerModal({
     };
 
     const loadMorePlayers = () => {
+        console.log("Load more players");
         if (hasMore && !loading && canLoadMore()) {
             dispatch(setPage(page + 1));
         }
@@ -131,7 +132,7 @@ export default function PlayerModal({
                         )}
 
                         {hasMore && (
-                            <div className="text-center">
+                            <div className="flex flex-col items-center justify-center space-y-1 text-center">
                                 <Button
                                     variant="bordered"
                                     onPress={loadMorePlayers}
@@ -146,6 +147,9 @@ export default function PlayerModal({
                                         `Load More Players (${countdown}s)`
                                     )}
                                 </Button>
+                                <span className="text-xs">
+                                    * BallDontLie API rate limit: 60 requests per minute.
+                                </span>
                             </div>
                         )}
 

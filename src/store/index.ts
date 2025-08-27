@@ -12,7 +12,10 @@ import {
     PURGE,
     REGISTER
 } from "redux-persist";
+import uiReducer from "./features/ui/uiSlice";
 import authReducer from "./features/auth/authSlice";
+import teamsReducer from "./features/teams/teamsSlice";
+import playersReducer from "./features/players/playersSlice";
 
 const encryptor = encryptTransform({
     secretKey: process.env.NEXT_PUBLIC_PERSIST_KEY ?? "default_key"
@@ -22,11 +25,14 @@ const persistConfig = {
     key: "nba-manager",
     storage: persistStorage,
     transforms: [encryptor],
-    whitelist: ["auth"]
+    whitelist: ["auth", "teams"]
 };
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    ui: uiReducer,
+    auth: authReducer,
+    teams: teamsReducer,
+    players: playersReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

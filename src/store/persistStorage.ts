@@ -5,8 +5,8 @@ const createNoopStorage = () => {
         getItem() {
             return Promise.resolve(null);
         },
-        setItem(_key: any, value: any) {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        setItem(_key: string, value: string) {
+            console.log(_key);
             return Promise.resolve(value);
         },
         removeItem() {

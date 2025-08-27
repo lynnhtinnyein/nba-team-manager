@@ -1,6 +1,5 @@
 import ActionButtons from "@/components/ActionButtons";
 import TeamGrid from "@/components/TeamGrid";
-import TeamModal from "@/components/TeamModal";
 import LogoutButton from "@/components/LogoutButton";
 import ThemeSwitcher from "@/components/ThemeSwitch";
 import Hydrate from "@/components/Hydrate";

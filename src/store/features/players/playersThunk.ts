@@ -1,3 +1,4 @@
+//no-tscheck
 import { BalldontlieAPI } from "@balldontlie/sdk";
 import { PlayersState } from "./playersSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -26,7 +27,7 @@ export const fetchPlayers = createAsyncThunk(
             });
 
             return { data: res.data, meta: res.meta, pageNumber };
-        } catch (error: any) {
+        } catch (error) {
             return rejectWithValue(error.message);
         }
     }

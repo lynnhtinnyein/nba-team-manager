@@ -47,7 +47,11 @@ const playersSlice = createSlice({
             const { data, meta, pageNumber } = action.payload;
             state.loading = false;
             state.hasMore = Boolean(meta?.next_cursor);
-            state.players.push(...data);
+
+            const existingPlayerIds = new Set(state.players.map((player) => player.id));
+            const uniqueNewPlayers = data.filter((player) => !existingPlayerIds.has(player.id));
+
+            state.players.push(...uniqueNewPlayers);
 
             if (meta?.next_cursor) {
                 state.cursors[pageNumber + 1] = meta.next_cursor;

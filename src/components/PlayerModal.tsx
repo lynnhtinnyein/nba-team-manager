@@ -30,7 +30,7 @@ export default function PlayerModal({
     const [countdown, setCountdown] = useState<number>(0);
 
     const { lastFetchAt } = useSelector((state: RootState) => state.ui);
-    const { teams, targetTeam } = useSelector((state: RootState) => state.teams);
+    const { teams } = useSelector((state: RootState) => state.teams);
     const { players, loading, page, hasMore } = useSelector((state: RootState) => state.players);
 
     const [choosenPlayers, setChoosenPlayers] = useState<NBAPlayer[]>([]);
@@ -43,6 +43,7 @@ export default function PlayerModal({
 
     useEffect(() => {
         if (hasMore && page > 1) {
+            console.log(page);
             dispatch(fetchPlayers(page));
         }
     }, [page]);
@@ -78,7 +79,6 @@ export default function PlayerModal({
     };
 
     const loadMorePlayers = () => {
-        console.log("Load more players");
         if (hasMore && !loading && canLoadMore()) {
             dispatch(setPage(page + 1));
         }
@@ -148,7 +148,7 @@ export default function PlayerModal({
                                     )}
                                 </Button>
                                 <span className="text-xs">
-                                    * BallDontLie API rate limit: 60 requests per minute.
+                                    * BallDontLie API rate limit: 1 request per minute.
                                 </span>
                             </div>
                         )}

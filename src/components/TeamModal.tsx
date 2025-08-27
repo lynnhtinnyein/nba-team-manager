@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
@@ -36,7 +36,7 @@ export default function TeamModal() {
     const dispatch: AppDispatch = useDispatch();
 
     const { showTeamModal } = useSelector((state: RootState) => state.ui);
-    const { targetTeam } = useSelector((state: RootState) => state.teams);
+    const { targetTeam, teams } = useSelector((state: RootState) => state.teams);
     const [showPlayerModal, setShowPlayerModal] = useState(false);
 
     const [teamForm, setTeamForm] = useState({
@@ -45,6 +45,15 @@ export default function TeamModal() {
         country: ""
     });
     const [selectedPlayers, setSelectedPlayers] = useState<NBAPlayer[]>([]);
+
+    const isDuplicateTeamName = useMemo(() => {
+        const name = teamForm.name.trim().toLowerCase();
+        return teams.some(
+            (team) =>
+                team.name.trim().toLowerCase() === name &&
+                (!targetTeam || team.id !== targetTeam.id)
+        );
+    }, [teamForm.name, teams]);
 
     useEffect(() => {
         if (targetTeam) {
@@ -74,6 +83,14 @@ export default function TeamModal() {
     };
 
     const handleSave = () => {
+        if (
+            !teamForm.name ||
+            !teamForm.region ||
+            !teamForm.country ||
+            selectedPlayers.length === 0
+        ) {
+            return;
+        }
         const teamData = {
             name: teamForm.name,
             region: teamForm.region,
@@ -116,6 +133,8 @@ export default function TeamModal() {
                                 onChange={(e) =>
                                     setTeamForm((prev) => ({ ...prev, name: e.target.value }))
                                 }
+                                isInvalid={isDuplicateTeamName}
+                                errorMessage="Team name already exists"
                             />
 
                             <div className="grid grid-cols-2 gap-4">
@@ -219,7 +238,8 @@ export default function TeamModal() {
                                 !teamForm.name ||
                                 !teamForm.region ||
                                 !teamForm.country ||
-                                selectedPlayers.length === 0
+                                selectedPlayers.length === 0 ||
+                                isDuplicateTeamName
                             }
                         >
                             {targetTeam ? "Update Team" : "Create Team"}

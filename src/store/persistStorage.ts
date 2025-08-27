@@ -2,13 +2,14 @@ import createWebStorage from "redux-persist/es/storage/createWebStorage";
 
 const createNoopStorage = () => {
     return {
-        getItem(_key: any) {
+        getItem() {
             return Promise.resolve(null);
         },
         setItem(_key: any, value: any) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             return Promise.resolve(value);
         },
-        removeItem(_key: any) {
+        removeItem() {
             return Promise.resolve();
         }
     };
